@@ -8,6 +8,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ScottPlot:WpfPlot x:Name="WpfPlot1" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="319*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="30*"/>
+        </Grid.ColumnDefinitions>
+        <ScottPlot:WpfPlot x:Name="WpfPlot1" Grid.Row="2" >
+            <ScottPlot:WpfPlot.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFE01A1A" Offset="1"/>
+                </LinearGradientBrush>
+            </ScottPlot:WpfPlot.Background>
+        </ScottPlot:WpfPlot>
+        <ComboBox HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="26" Text="Меню"/>
+        <Menu Grid.Column="1" Grid.Row="2">
+            <Label Content="Label" Width="220"/>
+            <Slider Width="220"/>
+        </Menu>
     </Grid>
 </Window>
