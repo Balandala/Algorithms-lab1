@@ -31,6 +31,23 @@ namespace Algorythms_Visualization
                 WpfPlot1.Plot.Add.Scatter(dataX, dataY);
                 WpfPlot1.Refresh();
             };
+           
+        }
+        public void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Логика для динамического изменения размера шрифта
+            double newFontSize = Math.Min(this.ActualWidth / 25, this.ActualHeight / 10);
+            mySlider.FontSize = newFontSize;
+        }
+        
+
+        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Fasa.Content = "Первый алгоритм1";
+            double testvalue = Math.Round(mySlider.Value);
+            Fasa.Content = testvalue.ToString();
         }
     }
 }
