@@ -9,7 +9,7 @@ namespace Algorythm_Logic.Algorythms
 {
     public class ArrayMult : Algorythm
     {
-        private int maxArraySize = 10000;
+        private int maxArraySize = 200000;
         public new int MaxArraySize
         {
             get { return maxArraySize; }
@@ -19,7 +19,7 @@ namespace Algorythm_Logic.Algorythms
             long sum = 1;
             foreach (int num in array)
             {
-                if (Math.Abs(sum - long.MaxValue) < num)
+                if (Math.Abs(sum - long.MaxValue) < Math.Abs(num))
                     sum = 1;
                 else
                     sum *= num;

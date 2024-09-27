@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
 
-public class Generator
+public class Testing
 {
     public static int[] GenerateData(int size, int limits) 
     {
@@ -45,7 +45,7 @@ public class Tester
             Stopwatch stopwatch = Stopwatch.StartNew();
             algorythm.Execute(testData);
             stopwatch.Stop();
-            result[i] = (double)stopwatch.ElapsedMilliseconds * 1000;
+            result[i] = (double)stopwatch.ElapsedTicks;
         }
         return result;
     }
