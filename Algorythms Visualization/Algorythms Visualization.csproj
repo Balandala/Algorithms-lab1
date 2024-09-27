@@ -6,9 +6,11 @@
     <RootNamespace>Algorythms_Visualization</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
     <PackageReference Include="ScottPlot" Version="5.0.39" />
     <PackageReference Include="ScottPlot.WPF" Version="5.0.39" />
   </ItemGroup>
