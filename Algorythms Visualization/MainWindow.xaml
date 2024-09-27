@@ -27,13 +27,17 @@
             </ScottPlot:WpfPlot.Background>
         </ScottPlot:WpfPlot>
         <ComboBox   Margin="10 15 10 5" HorizontalAlignment="Stretch"   VerticalAlignment="Center" MaxWidth="950" MinWidth="530" MaxHeight="50" MinHeight="40" materialDesign:HintAssist.Hint="Выбирите алгоритм" >
-            <ComboBoxItem x:Name="Fasa" >Сортировка пузырьком</ComboBoxItem>
-            <ComboBoxItem>Второй алгоритм</ComboBoxItem>
-            <ComboBoxItem>Третий алгоритм</ComboBoxItem>
-            <ComboBoxItem>Четвертый алгоритм</ComboBoxItem>
-            <ComboBoxItem>Пятый алгоритм</ComboBoxItem>
-            <ComboBoxItem>Шестой алгоритм</ComboBoxItem>
-            <ComboBoxItem>Седьмой алгоритм</ComboBoxItem>
+            <ComboBoxItem x:Name="Fasa" >F(n)=1</ComboBoxItem>
+            <ComboBoxItem>Сумма всех элементов массива</ComboBoxItem>
+            <ComboBoxItem>Произведение всех эелементов массива</ComboBoxItem>
+            <ComboBoxItem>P(x)=sum(i=1...n) ƎVᵢ*x^(i-1),для x=1,5</ComboBoxItem>
+            <ComboBoxItem>Сортировка пузырьком</ComboBoxItem>
+            <ComboBoxItem>Быстрая сортировка</ComboBoxItem>
+            <ComboBoxItem>Алгоритм возведения в степень</ComboBoxItem>
+            <ComboBoxItem>Умножение двух матриц размером m*n</ComboBoxItem>
+            <ComboBoxItem>Алгоритм полного перебора(Brute force)</ComboBoxItem>
+            <ComboBoxItem>Поразрядная сортировка(Radix sort)</ComboBoxItem>
+            <ComboBoxItem>Нахождение всех троек в массиве(3-Sum Problem)</ComboBoxItem>
 
         </ComboBox>
         
