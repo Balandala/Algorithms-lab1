@@ -8,11 +8,8 @@ namespace Algorythms_Logic.Algorythms
 {
     public class Constant : Algorythm
     {
-        private int maxArraySize = 10000;
-        public new int MaxArraySize
-        {
-            get { return maxArraySize; }
-        }
+        public override string Description => "Возвращение константы";
+        public override int MaxArraySize => 200000;
         public override void Execute(int[] array)
         {
             return;

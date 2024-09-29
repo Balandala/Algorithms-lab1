@@ -8,11 +8,8 @@ namespace Algorythms_Logic.Algorythms
 {
     public abstract class Algorythm
     {
-        private int maxArraySize;
-        public int MaxArraySize
-        {
-            get { return maxArraySize; }
-        }
-        public abstract void Execute(int[] array);
+        public abstract string Description { get; }
+        public abstract int MaxArraySize { get; }
+        public virtual void Execute(int[] array) { }
     }
 }
