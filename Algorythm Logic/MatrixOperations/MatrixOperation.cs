@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algorythm_Logic.Algorythms
+namespace Algorythm_Logic.MatrixOperations
 {
     public abstract class MatrixOperation : Algorythm
     {
         public override abstract int MaxArraySize { get; }
         public override abstract string Description { get; }
-        public abstract int NumberOfOperands {  get; }
-        public virtual void Execute(params int[][,] matrices){}
+        public abstract int NumberOfOperands { get; }
+        public virtual void Execute(params int[][,] matrices) { }
     }
 }

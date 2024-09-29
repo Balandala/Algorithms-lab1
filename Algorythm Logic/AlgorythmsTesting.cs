@@ -1,6 +1,6 @@
 ﻿namespace Algorythm_Logic;
 
-using Algorythm_Logic.Algorythms;
+using Algorythm_Logic.MatrixOperations;
 using Algorythms_Logic.Algorythms;
 using System.Diagnostics;
 using System.Numerics;
@@ -8,18 +8,18 @@ using System.Reflection;
 
 public class AlgorythmsTesting
 {
-    public static int[] GenerateData(int size, int limits) 
+    public static int[] GenerateData(int size) 
     {
         Random rand = new Random();
         int[] ar = new int[size];
         for(int i = 0; i < ar.Length; i++)
         {
-            ar[i] = rand.Next(-limits, limits);
+            ar[i] = rand.Next();
         }
         return ar;
     }
 
-    public static int[,] GenerateMatix(int size, int limits)
+    public static int[,] GenerateMatix(int size)
     {
         var mx = new int[size,size];
         Random random = new Random();
@@ -27,12 +27,12 @@ public class AlgorythmsTesting
         {
             for (int j = 0; j < size; j++) 
             {
-                mx[i,j] = random.Next(-limits, limits);
+                mx[i,j] = random.Next();
             }
         }
         return mx;
     } 
-    public static int[][,] GenerateMatixSet(MatrixOperation matrixOp, int maxRank, int limits) //Генерирует массив из матриц размером maxRank * NumberOfOperands. Причём для каждого размера подряд идёт NumberOfOperands матриц одного размера 
+    public static int[][,] GenerateMatixSet(MatrixOperation matrixOp, int maxRank) //Генерирует массив из матриц размером maxRank * NumberOfOperands. Причём для каждого размера подряд идёт NumberOfOperands матриц одного размера 
     {
         int[][,] set = new int[maxRank * matrixOp.NumberOfOperands][,];
         int curentRank = 0;
@@ -40,7 +40,7 @@ public class AlgorythmsTesting
         {
             for (int j = 0;j < matrixOp.NumberOfOperands; j++)
             {
-                int[,] matrix = GenerateMatix(curentRank, limits);
+                int[,] matrix = GenerateMatix(curentRank);
                 set[i + j] = matrix;
             }
             curentRank++;
@@ -58,25 +58,23 @@ public class AlgorythmsTesting
             Stopwatch stopwatch = Stopwatch.StartNew();
             algorythm.Execute(testData);
             stopwatch.Stop();
-            result[i] = (double)stopwatch.ElapsedTicks / 10000;
+            result[i] = (double)stopwatch.ElapsedTicks / 10000; // Время в милисекундах
             
         }
         return result;
     }
-    public static double[] TestExecutionTime(MatrixOperation matrixOp, int[][,] data) // Принимает алгоритм, данные и массив разметки (иксов). Возвращает массив времени выполнения алгоритма для каждой метки
+    public static double[] TestExecutionTime(MatrixOperation matrixOp, int[][,] data, int[] marking) // Перегрузка для матриц
     {
         int numberOfOperands = matrixOp.NumberOfOperands;
-        int curentMartixGroup = 0;
-        double[] result = new double[data.Length / numberOfOperands]; ;
-        for (int i = 0; i < data.Length / numberOfOperands; i ++)
+        double[] result = new double[marking.Length]; ;
+        for(int i = 0; i < marking.Length; i++)
         {
             int[][,] testData = new int[numberOfOperands][,];
-            Array.Copy(data, curentMartixGroup, testData, 0, numberOfOperands);
+            Array.Copy(data, marking[i], testData, 0, numberOfOperands);
             Stopwatch stopwatch = Stopwatch.StartNew();
             matrixOp.Execute(testData);
             stopwatch.Stop();
             result[i] = (double)stopwatch.ElapsedTicks / 10000;
-            curentMartixGroup += numberOfOperands;
         }
         return result;
     }
