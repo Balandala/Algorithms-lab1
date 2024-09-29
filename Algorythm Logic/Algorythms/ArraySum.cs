@@ -17,6 +17,9 @@ namespace Algorythm_Logic.Algorythms
             long sum = 0;
             foreach (int num in array)
             {
+                if (Math.Abs(sum - long.MaxValue) < Math.Abs(num))
+                    sum = num;
+                else
                     sum += num;
             }
             return;

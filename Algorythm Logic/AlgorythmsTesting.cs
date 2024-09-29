@@ -1,10 +1,12 @@
 ﻿namespace Algorythm_Logic;
+
+using Algorythm_Logic.Algorythms;
 using Algorythms_Logic.Algorythms;
 using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
 
-public class AlgorythmTesting
+public class AlgorythmsTesting
 {
     public static int[] GenerateData(int size, int limits) 
     {
@@ -30,9 +32,24 @@ public class AlgorythmTesting
         }
         return mx;
     } 
-    public static long[] TestExecutionTime(Algorythm algorythm, int[] data, int[] marking) // Принимает алгоритм, данные и массив разметки (иксов). Возвращает массив времени выполнения алгоритма для каждой метки
+    public static int[][,] GenerateMatixSet(MatrixOperation matrixOp, int maxRank, int limits) //Генерирует массив из матриц размером maxRank * NumberOfOperands. Причём для каждого размера подряд идёт NumberOfOperands матриц одного размера 
     {
-        long[] result = new long[marking.Length];
+        int[][,] set = new int[maxRank * matrixOp.NumberOfOperands][,];
+        int curentRank = 0;
+        for (int i = 0;i < maxRank * matrixOp.NumberOfOperands; i += matrixOp.NumberOfOperands)
+        {
+            for (int j = 0;j < matrixOp.NumberOfOperands; j++)
+            {
+                int[,] matrix = GenerateMatix(curentRank, limits);
+                set[i + j] = matrix;
+            }
+            curentRank++;
+        }
+        return set;
+    }
+    public static double[] TestExecutionTime(Algorythm algorythm, int[] data, int[] marking) // Принимает алгоритм, данные и массив разметки (иксов). Возвращает массив времени выполнения алгоритма для каждой метки
+    {
+        double[] result = new double[marking.Length];
         for (int i = 0; i < marking.Length; i++)
         { 
             int mark = marking[i];
@@ -41,7 +58,25 @@ public class AlgorythmTesting
             Stopwatch stopwatch = Stopwatch.StartNew();
             algorythm.Execute(testData);
             stopwatch.Stop();
-            result[i] = stopwatch.ElapsedMilliseconds;
+            result[i] = (double)stopwatch.ElapsedTicks / 10000;
+            
+        }
+        return result;
+    }
+    public static double[] TestExecutionTime(MatrixOperation matrixOp, int[][,] data) // Принимает алгоритм, данные и массив разметки (иксов). Возвращает массив времени выполнения алгоритма для каждой метки
+    {
+        int numberOfOperands = matrixOp.NumberOfOperands;
+        int curentMartixGroup = 0;
+        double[] result = new double[data.Length / numberOfOperands]; ;
+        for (int i = 0; i < data.Length / numberOfOperands; i ++)
+        {
+            int[][,] testData = new int[numberOfOperands][,];
+            Array.Copy(data, curentMartixGroup, testData, 0, numberOfOperands);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            matrixOp.Execute(testData);
+            stopwatch.Stop();
+            result[i] = (double)stopwatch.ElapsedTicks / 10000;
+            curentMartixGroup += numberOfOperands;
         }
         return result;
     }

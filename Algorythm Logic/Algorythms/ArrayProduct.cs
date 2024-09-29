@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Algorythm_Logic.Algorythms
 {
-    public class ArrayMult : Algorythm
+    public class ArrayProduct : Algorythm
     {
         public override string Description => "Перемножение всех чисел в массиве";
         public override int MaxArraySize => 200000;
