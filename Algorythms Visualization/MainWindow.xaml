@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:Algorythms_Visualization"
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -18,26 +18,24 @@
             <ColumnDefinition Width="71*"/>
             <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
-        <ScottPlot:WpfPlot x:Name="WpfPlot1"  Grid.Row="2" >
-            <ScottPlot:WpfPlot.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFE01A1A" Offset="1"/>
-                </LinearGradientBrush>
-            </ScottPlot:WpfPlot.Background>
+        <Button Click="Button_Click" Grid.Column="1" x:Name="Button" Background="LightGray" Foreground="Black" VerticalAlignment="Top" FontSize="14" MaxWidth="550" MinWidth="100" MaxHeight="40"  MinHeight="23" Margin="5,10,5,1"  Content="Запуск" FontStyle="Italic"  Grid.Row="0" Grid.RowSpan="2"/>
+        <ScottPlot:WpfPlot x:Name="WpfPlot1" Grid.Row="1"  Grid.RowSpan="2" >
+            
+            
+
         </ScottPlot:WpfPlot>
-        <ComboBox   Margin="10 15 10 5" HorizontalAlignment="Stretch"   VerticalAlignment="Center" MaxWidth="950" MinWidth="530" MaxHeight="50" MinHeight="40" materialDesign:HintAssist.Hint="Выбирите алгоритм" >
-            <ComboBoxItem x:Name="Fasa" >F(n)=1</ComboBoxItem>
-            <ComboBoxItem>Сумма всех элементов массива</ComboBoxItem>
-            <ComboBoxItem>Произведение всех эелементов массива</ComboBoxItem>
-            <ComboBoxItem>P(x)=sum(i=1...n) ƎVᵢ*x^(i-1),для x=1,5</ComboBoxItem>
-            <ComboBoxItem>Сортировка пузырьком</ComboBoxItem>
-            <ComboBoxItem>Быстрая сортировка</ComboBoxItem>
-            <ComboBoxItem>Алгоритм возведения в степень</ComboBoxItem>
-            <ComboBoxItem>Умножение двух матриц размером m*n</ComboBoxItem>
-            <ComboBoxItem>Алгоритм полного перебора(Brute force)</ComboBoxItem>
-            <ComboBoxItem>Поразрядная сортировка(Radix sort)</ComboBoxItem>
-            <ComboBoxItem>Нахождение всех троек в массиве(3-Sum Problem)</ComboBoxItem>
+        <ComboBox x:Name="Combox"  Margin="10 15 10 5" HorizontalAlignment="Stretch"   VerticalAlignment="Center" MaxWidth="950" MinWidth="530" MaxHeight="50" MinHeight="40" materialDesign:HintAssist.Hint="Выбирите алгоритм" >
+            <ComboBoxItem x:Name="Const" >F(n)=1</ComboBoxItem>
+            <ComboBoxItem x:Name="SumElMas" >Сумма всех элементов массива</ComboBoxItem>
+            <ComboBoxItem x:Name="MultipElMAs" >Произведение всех эелементов массива</ComboBoxItem>
+            <ComboBoxItem x:Name="Px" >P(x)=sum(i=1...n) ƎVᵢ*x^(i-1),для x=1,5</ComboBoxItem>
+            <ComboBoxItem x:Name="BublySort" >Сортировка пузырьком</ComboBoxItem>
+            <ComboBoxItem x:Name="FastSort" >Быстрая сортировка</ComboBoxItem>
+            <ComboBoxItem x:Name="AlgVos" >Алгоритм возведения в степень</ComboBoxItem>
+            <ComboBoxItem x:Name="MultipMatrix" >Умножение двух матриц размером m*n</ComboBoxItem>
+            <ComboBoxItem x:Name="Bruteforce" >Алгоритм полного перебора(Brute force)</ComboBoxItem>
+            <ComboBoxItem x:Name="Radixsort" >Поразрядная сортировка(Radix sort)</ComboBoxItem>
+            <ComboBoxItem x:Name="SumProblem" >Нахождение всех троек в массиве(3-Sum Problem)</ComboBoxItem>
 
         </ComboBox>
         
@@ -52,6 +50,6 @@
 
         </Grid>
 
-        <Button Click="Button_Click" Grid.Column="1" x:Name="Button" Background="LightGray" Foreground="Black" VerticalAlignment="Top" FontSize="14" MaxWidth="550" MinWidth="100" MaxHeight="40"  MinHeight="23" Margin="5,10,5,1"  Content="Запуск" FontStyle="Italic"  Grid.Row="0" Grid.RowSpan="2"/>
+       
     </Grid>
 </Window>

@@ -15,4 +15,8 @@
     <PackageReference Include="ScottPlot.WPF" Version="5.0.39" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Algorythm Logic\Algorythms Logic.csproj" />
+  </ItemGroup>
+
 </Project>
