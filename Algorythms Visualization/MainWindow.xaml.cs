@@ -39,9 +39,10 @@ namespace Algorythms_Visualization
 
         private double[][] MakeExperiments(int[] marking)
         {
-            int maxSize = (int)Math.Floor(arraySize.Value);
-            double[][] experiments = new double[maxSize][];
-            for (int i = 0; i < maxSize; i++)
+            int testAmount = (int)Math.Round(numberOfTests.Value);
+            int maxSize = (int)Math.Round(arraySize.Value);
+            double[][] experiments = new double[testAmount][];
+            for (int i = 0; i < testAmount; i++)
             {
                 double[] result = new double[marking.Length];
                 if (_selectedAlgorythm is MatrixOperation)
@@ -70,21 +71,22 @@ namespace Algorythms_Visualization
 
         private double[] ToAvarageData(double[][] experements)
         {
-            int size = experements.GetLength(0);
-            double[] dataY = new double[experements.GetLength(0)];
-            for (int i = 0; i < size; i++)
+            double sum = 0;
+            int size = experements[0].Length; //Размер внутренних массивов (количество X)
+            double[] dataY = new double[size];
+            for (int i = 0; i < size; i++)  // проход по всем элементам внутренних массивов
             {
-                double average = 0;
-                for (int j = 0;j < experements.Length; j++)
+                for (int j = 0;j < experements.Length; j++) // проход по всем элементам внешнего массива
                 {
-                    average += experements[j][i]; // Надо пофиксить
+                    sum += experements[j][i]; //суммирование i-ых элементов внутренних массивов
                 }
-                dataY[i] = Math.Round(average / size, 10);
+                dataY[i] = Math.Round(sum / experements.Length, 6);
             }
             return dataY;
         }
         private void Graph_Build()
         {
+            MyPlot.Reset();
             int stp = (int)Math.Round(step.Value);
             int size = (int)(Math.Round(arraySize.Value) / stp);
             int[] dataX = new int[size];
@@ -94,7 +96,7 @@ namespace Algorythms_Visualization
             }
             double[] dataY = ToAvarageData(MakeExperiments(dataX));
             // Пример данных для второй линии
-            var testDataGraph = WpfPlot1.Plot.Add.Scatter(dataX, dataY);
+            var testDataGraph = MyPlot.Plot.Add.Scatter(dataX, dataY);
             testDataGraph.Label = "Эксперементальные результаты";
             //толщина
             testDataGraph.LineWidth = 2; 
@@ -104,27 +106,27 @@ namespace Algorythms_Visualization
             //scatter2.LineWidth = 2;
 
             // Подписи левой нижней и верхней оси
-            WpfPlot1.Plot.ShowLegend();
-            WpfPlot1.Plot.Axes.Left.Label.Text = "Время(секунды)";
-            WpfPlot1.Plot.Axes.Left.Label.ForeColor = ScottPlot.Colors.Black;
-            WpfPlot1.Plot.Axes.Left.Label.FontName = ScottPlot.Fonts.Monospace;
-            WpfPlot1.Plot.Axes.Left.Label.Bold = false;
-            WpfPlot1.Plot.Axes.Left.Label.FontSize = 20;
+            MyPlot.Plot.ShowLegend();
+            MyPlot.Plot.Axes.Left.Label.Text = "Время(милисекунды)";
+            MyPlot.Plot.Axes.Left.Label.ForeColor = ScottPlot.Colors.Black;
+            MyPlot.Plot.Axes.Left.Label.FontName = ScottPlot.Fonts.Monospace;
+            MyPlot.Plot.Axes.Left.Label.Bold = false;
+            MyPlot.Plot.Axes.Left.Label.FontSize = 20;
             //нижняя
-            WpfPlot1.Plot.Axes.Bottom.Label.Text = "Количество эелементов в массиве";
-            WpfPlot1.Plot.Axes.Bottom.Label.Bold = false;
-            WpfPlot1.Plot.Axes.Bottom.Label.ForeColor = ScottPlot.Colors.Black;
-            WpfPlot1.Plot.Axes.Bottom.Label.FontName = ScottPlot.Fonts.Monospace;
-            WpfPlot1.Plot.Axes.Bottom.Label.FontSize = 20;
+            MyPlot.Plot.Axes.Bottom.Label.Text = "Количество эелементов в массиве";
+            MyPlot.Plot.Axes.Bottom.Label.Bold = false;
+            MyPlot.Plot.Axes.Bottom.Label.ForeColor = ScottPlot.Colors.Black;
+            MyPlot.Plot.Axes.Bottom.Label.FontName = ScottPlot.Fonts.Monospace;
+            MyPlot.Plot.Axes.Bottom.Label.FontSize = 20;
             //верхняя
-            WpfPlot1.Plot.Axes.Title.Label.Text = "График зависимости";
-            WpfPlot1.Plot.Axes.Title.Label.Bold = false;
-            WpfPlot1.Plot.Axes.Title.Label.ForeColor = ScottPlot.Colors.Black;
-            WpfPlot1.Plot.Axes.Title.Label.FontName = ScottPlot.Fonts.Monospace;
-            WpfPlot1.Plot.Axes.Title.Label.FontSize = 25;
+            MyPlot.Plot.Axes.Title.Label.Text = "График зависимости";
+            MyPlot.Plot.Axes.Title.Label.Bold = false;
+            MyPlot.Plot.Axes.Title.Label.ForeColor = ScottPlot.Colors.Black;
+            MyPlot.Plot.Axes.Title.Label.FontName = ScottPlot.Fonts.Monospace;
+            MyPlot.Plot.Axes.Title.Label.FontSize = 25;
 
            
-            WpfPlot1.Refresh();
+            MyPlot.Refresh();
            
         }
 
@@ -140,7 +142,7 @@ namespace Algorythms_Visualization
             Loaded += MainWindow_Loaded;
             Combox.SelectionChanged += Combox_SelectedValueChanged;
         
-           // Graph_Build();
+           //Graph_Build();
 
         }
 
@@ -157,20 +159,10 @@ namespace Algorythms_Visualization
         private void Combox_SelectedValueChanged(object sender, EventArgs e)
         {
 
-            _selectedAlgorythm = _avilibleAlgorytmhs.FirstOrDefault(a => a.Description == Combox.SelectedItem);
+            _selectedAlgorythm = _avilibleAlgorytmhs.FirstOrDefault(a => a.Description == Combox.SelectedItem); // устанавливает _avilibleAlgorythm в соответсвии с выбранным элементом комбобокса
             arraySize.Maximum = _selectedAlgorythm.MaxArraySize;
-            step.Maximum = arraySize.Maximum / 2;
-            if (_selectedAlgorythm is MatrixOperation)
-            {
-                MatrixOperation matrixop = (MatrixOperation)_selectedAlgorythm;
-                step.TickFrequency = matrixop.NumberOfOperands;
-                step.Minimum = matrixop.NumberOfOperands;
-            }
-            else
-            {
-                step.TickFrequency = 1;
-                step.Minimum = 1;
-            }
+            step.Maximum = arraySize.Maximum / 100;
+            step.Minimum = arraySize.Maximum / 1000;
             arrayBlock.Visibility = Visibility.Visible;
             stepBlock.Visibility = Visibility.Visible;
         }
