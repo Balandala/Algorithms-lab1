@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algorythm_Logic.Algorythms
+namespace Algorythms_Logic.Algorythms
 {
     public class ArrayProduct : Algorythm
     {
@@ -14,13 +15,10 @@ namespace Algorythm_Logic.Algorythms
 
         public override void Execute(int[] array)
         {
-            long sum = 1;
+            BigInteger prod = 1;
             foreach (int num in array)
             {
-                if (Math.Abs(sum - long.MaxValue) < Math.Abs(num))
-                    sum = 1;
-                else
-                    sum *= num;
+                prod = BigInteger.Multiply(prod, num);
             }
             return;
         }

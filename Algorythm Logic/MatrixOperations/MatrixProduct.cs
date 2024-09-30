@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algorythm_Logic.MatrixOperations
+namespace Algorythms_Logic.MatrixOperations
 {
     public class MatrixProduct : MatrixOperation
     {

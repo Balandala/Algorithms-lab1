@@ -1,6 +1,7 @@
-﻿namespace Algorythm_Logic;
+﻿namespace Algorythms_Logic;
 
-using Algorythm_Logic.MatrixOperations;
+using Algorythms_Logic.BinaryOperations;
+using Algorythms_Logic.MatrixOperations;
 using Algorythms_Logic.Algorythms;
 using System.Diagnostics;
 using System.Numerics;
@@ -75,6 +76,19 @@ public class AlgorythmsTesting
             matrixOp.Execute(testData);
             stopwatch.Stop();
             result[i] = (double)stopwatch.ElapsedTicks / 10000;
+        }
+        return result;
+    }
+    public static double[] TestExecutionTime(BinaryOperation op, int basis, int[] marking) // Принимает алгоритм, данные и массив разметки (иксов). Возвращает массив времени выполнения алгоритма для каждой метки
+    {
+        double[] result = new double[marking.Length];
+        for (int i = 0; i < marking.Length; i++)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            op.Execute(basis, i);
+            stopwatch.Stop();
+            result[i] = (double)stopwatch.ElapsedTicks / 10000; // Время в милисекундах
+
         }
         return result;
     }

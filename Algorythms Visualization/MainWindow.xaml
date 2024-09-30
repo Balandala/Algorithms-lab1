@@ -11,7 +11,6 @@
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="46*"/>
-            <RowDefinition Height="90*"/>
             <RowDefinition Height="319*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,34 +19,47 @@
         </Grid.ColumnDefinitions>
         <Button Click="Button_Click" Grid.Column="1" x:Name="Button" Background="LightGray" Foreground="Black" VerticalAlignment="Top" FontSize="14" MaxWidth="550" MinWidth="100" MaxHeight="40"  MinHeight="23" Margin="5,10,5,1"  Content="Запуск" FontStyle="Italic"  Grid.Row="0" Grid.RowSpan="2"/>
         <ScottPlot:WpfPlot x:Name="WpfPlot1" Grid.Row="1"  Grid.RowSpan="2" >
-            
-            
-
         </ScottPlot:WpfPlot>
         <ComboBox x:Name="Combox"  Margin="10 15 10 5" HorizontalAlignment="Stretch"   VerticalAlignment="Center" MaxWidth="950" MinWidth="530" MaxHeight="50" MinHeight="40" materialDesign:HintAssist.Hint="Выбирите алгоритм" >
-            <ComboBoxItem x:Name="Const" >F(n)=1</ComboBoxItem>
-            <ComboBoxItem x:Name="SumElMas" >Сумма всех элементов массива</ComboBoxItem>
-            <ComboBoxItem x:Name="MultipElMAs" >Произведение всех эелементов массива</ComboBoxItem>
-            <ComboBoxItem x:Name="Px" >P(x)=sum(i=1...n) ƎVᵢ*x^(i-1),для x=1,5</ComboBoxItem>
-            <ComboBoxItem x:Name="BublySort" >Сортировка пузырьком</ComboBoxItem>
-            <ComboBoxItem x:Name="FastSort" >Быстрая сортировка</ComboBoxItem>
-            <ComboBoxItem x:Name="AlgVos" >Алгоритм возведения в степень</ComboBoxItem>
-            <ComboBoxItem x:Name="MultipMatrix" >Умножение двух матриц размером m*n</ComboBoxItem>
-            <ComboBoxItem x:Name="Bruteforce" >Алгоритм полного перебора(Brute force)</ComboBoxItem>
-            <ComboBoxItem x:Name="Radixsort" >Поразрядная сортировка(Radix sort)</ComboBoxItem>
-            <ComboBoxItem x:Name="SumProblem" >Нахождение всех троек в массиве(3-Sum Problem)</ComboBoxItem>
-
         </ComboBox>
         
-        <Grid Grid.Column="1" Grid.Row="2">
+        <Grid Grid.Column="1" Grid.Row="4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="90*"/>
-                <RowDefinition Height="90*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="30*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding ElementName=mySlider, Path=Value, StringFormat='Количсетво тестов: {0:F0}'}" 
-                       Margin="10"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
-            <Slider x:Name="mySlider"   Maximum="20" Minimum="0" TickFrequency="1"   MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Stretch"/>
+            
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "60"/>
+                    <RowDefinition Height = "30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding ElementName=numberOfTests, Path=Value, StringFormat='Количеcтво тестов: {0:F0}'}" 
+           Margin="0 8 0 0"  VerticalAlignment="top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
+                <Slider x:Name="numberOfTests" Grid.Row="1"  Maximum="20" Minimum="0" TickFrequency="1"   MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Center"/>
+            </Grid>
+            
+            <Grid x:Name="arrayBlock" Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "60"/>
+                    <RowDefinition Height = "30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding ElementName=arraySize, Path=Value, StringFormat='Размер массива: {0:F0}'}" 
+           Margin="0 8 0 0"  VerticalAlignment="top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
+                <Slider x:Name="arraySize" Grid.Row="1"  Maximum="20" Minimum="0" TickFrequency="1"   MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Center"/>
+            </Grid>
 
+            <Grid x:Name="stepBlock" Grid.Column="1" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "60"/>
+                    <RowDefinition Height = "30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding ElementName=step, Path=Value, StringFormat='Размер шага : {0:F0}'}" 
+           Margin="0 8 0 0"  VerticalAlignment="top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
+                <Slider x:Name="step" Grid.Row="1" MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Center"/>
+            </Grid>
         </Grid>
 
        

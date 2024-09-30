@@ -1,4 +1,8 @@
-﻿using ScottPlot;
+﻿using Algorythms_Logic;
+using Algorythms_Logic.Algorythms;
+using Algorythms_Logic.BinaryOperations;
+using Algorythms_Logic.MatrixOperations;
+using ScottPlot;
 using ScottPlot.WPF;
 using System;
 using System.Collections.Generic;
@@ -22,32 +26,82 @@ namespace Algorythms_Visualization
     /// </summary>
     public partial class MainWindow : Window
     {
-       
-       /* public void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        private List<Algorythm> _avilibleAlgorytmhs;
+        private Algorythm? _selectedAlgorythm;
+
+        /* public void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+         {
+             // Логика для динамического изменения размера шрифта
+             double newFontSize = Math.Min(this.ActualWidth / 250, this.ActualHeight / 100);
+             mySlider.FontSize = newFontSize;
+         }*/
+
+
+        private double[][] MakeExperiments(int[] marking)
         {
-            // Логика для динамического изменения размера шрифта
-            double newFontSize = Math.Min(this.ActualWidth / 250, this.ActualHeight / 100);
-            mySlider.FontSize = newFontSize;
-        }*/
+            int maxSize = (int)Math.Floor(arraySize.Value);
+            double[][] experiments = new double[maxSize][];
+            for (int i = 0; i < maxSize; i++)
+            {
+                double[] result = new double[marking.Length];
+                if (_selectedAlgorythm is MatrixOperation)
+                {
+                    MatrixOperation matrixOP = (MatrixOperation)_selectedAlgorythm;
+                    var data = AlgorythmsTesting.GenerateMatixSet(matrixOP, maxSize);
+                    experiments[i] = AlgorythmsTesting.TestExecutionTime(matrixOP, data, marking);
 
+                }
+                else if (_selectedAlgorythm is BinaryOperation)
+                {
+                    BinaryOperation binOp = (BinaryOperation)_selectedAlgorythm;
+                    experiments[i] = AlgorythmsTesting.TestExecutionTime(binOp, maxSize, marking);
 
+                }
+                else
+                {
+                    var data = AlgorythmsTesting.GenerateData(maxSize);
+                    experiments[i] = AlgorythmsTesting.TestExecutionTime(_selectedAlgorythm, data, marking);
+                }
+                
+            }
+            return experiments;
+
+        }
+
+        private double[] ToAvarageData(double[][] experements)
+        {
+            int size = experements.GetLength(0);
+            double[] dataY = new double[experements.GetLength(0)];
+            for (int i = 0; i < size; i++)
+            {
+                double average = 0;
+                for (int j = 0;j < experements.Length; j++)
+                {
+                    average += experements[j][i]; // Надо пофиксить
+                }
+                dataY[i] = Math.Round(average / size, 10);
+            }
+            return dataY;
+        }
         private void Graph_Build()
         {
-            
-            double testvalue = Math.Round(mySlider.Value);
-            double[] dataX = { 0, 1, 2, 3, 4, 5 };
-            double[] dataY = { 0, testvalue, 4, 9, 16, 25 };
-
+            int stp = (int)Math.Round(step.Value);
+            int size = (int)(Math.Round(arraySize.Value) / stp);
+            int[] dataX = new int[size];
+            for (int i = 0;i < size;i++)
+            {
+                dataX[i] = i * stp;
+            }
+            double[] dataY = ToAvarageData(MakeExperiments(dataX));
             // Пример данных для второй линии
-            double[] dataY2 = { testvalue * 0.5, testvalue * 1.5, testvalue * 2.5, testvalue * 3.5, testvalue * 4.5 };
-            var scatter1 = WpfPlot1.Plot.Add.Scatter(dataX, dataY);
-            scatter1.Label = "Эксперементальные результаты";
+            var testDataGraph = WpfPlot1.Plot.Add.Scatter(dataX, dataY);
+            testDataGraph.Label = "Эксперементальные результаты";
             //толщина
-            scatter1.LineWidth = 2; 
+            testDataGraph.LineWidth = 2; 
 
-            var scatter2 = WpfPlot1.Plot.Add.Scatter(dataX, dataY2);
-            scatter2.Label = "Аппроксимация на основе теоретических ошибок";
-            scatter2.LineWidth = 2;
+            //var scatter2 = WpfPlot1.Plot.Add.Scatter(dataX, dataY2);
+            //scatter2.Label = "Аппроксимация на основе теоретических ошибок";
+            //scatter2.LineWidth = 2;
 
             // Подписи левой нижней и верхней оси
             WpfPlot1.Plot.ShowLegend();
@@ -77,85 +131,48 @@ namespace Algorythms_Visualization
        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           
-            double testvalue = Math.Round(mySlider.Value);
-            //Const.Content = testvalue.ToString();
-       
-                var selectedAlgorithm = (ComboBoxItem)Combox.SelectedItem;
-                string algorithmName = selectedAlgorithm.Content.ToString();
-
-                switch (algorithmName)
-                {
-                    case "F(n)=1":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-
-                        break;
-
-                    case "Сумма всех элементов массива":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-
-                        break;
-
-                    case "Произведение всех элементов массива":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "P(x)=sum(i=1...n) ƎVᵢ*x^(i-1),для x=1,5":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Сортировка пузырьком":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "БЫсьрая сортировка":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Алгоритм возведения в степень":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Умножение двух матриц размером m*n":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Алгоритм полного перебора(Brute force)":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Поразрядная сортировка(Radix sort)":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    case "Нахождение всех троек в массиве(3-Sum Problem)":
-                        WpfPlot1.Plot.Clear();
-                        Graph_Build();
-                        break;
-
-                    default:
-                        MessageBox.Show("Выберите алгоритм!");
-                        break;
-                }           
+            Graph_Build();      
         }
         public MainWindow()
         {
 
             InitializeComponent();
-           
+            Loaded += MainWindow_Loaded;
+            Combox.SelectionChanged += Combox_SelectedValueChanged;
         
            // Graph_Build();
 
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_avilibleAlgorytmhs == null)
+            {
+                arrayBlock.Visibility = Visibility.Hidden;
+                stepBlock.Visibility = Visibility.Hidden;
+                _avilibleAlgorytmhs = AlgorythmsTesting.FindAvilibleAlgorythms();
+                Combox.ItemsSource = _avilibleAlgorytmhs.Select(t => t.Description);
+            }
+        }
+        private void Combox_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+            _selectedAlgorythm = _avilibleAlgorytmhs.FirstOrDefault(a => a.Description == Combox.SelectedItem);
+            arraySize.Maximum = _selectedAlgorythm.MaxArraySize;
+            step.Maximum = arraySize.Maximum / 2;
+            if (_selectedAlgorythm is MatrixOperation)
+            {
+                MatrixOperation matrixop = (MatrixOperation)_selectedAlgorythm;
+                step.TickFrequency = matrixop.NumberOfOperands;
+                step.Minimum = matrixop.NumberOfOperands;
+            }
+            else
+            {
+                step.TickFrequency = 1;
+                step.Minimum = 1;
+            }
+            arrayBlock.Visibility = Visibility.Visible;
+            stepBlock.Visibility = Visibility.Visible;
         }
     }
    
