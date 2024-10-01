@@ -11,6 +11,7 @@ namespace Algorythms_Logic.BinaryOperations
     {
         public override abstract string Description { get; }
         public override abstract int MaxArraySize { get; }
+        public abstract int MaxBasisNumber { get; }
         public virtual void Execute(int basis, int arg) { }
     }
 }

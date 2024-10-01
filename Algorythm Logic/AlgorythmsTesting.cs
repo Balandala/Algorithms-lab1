@@ -60,7 +60,6 @@ public class AlgorythmsTesting
             algorythm.Execute(testData);
             stopwatch.Stop();
             result[i] = (double)stopwatch.ElapsedTicks / 10000; // Время в милисекундах
-            
         }
         return result;
     }

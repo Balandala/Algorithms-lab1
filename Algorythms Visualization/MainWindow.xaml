@@ -60,6 +60,15 @@
            Margin="0 8 0 0"  VerticalAlignment="top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
                 <Slider x:Name="step" Grid.Row="1" MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Center"/>
             </Grid>
+            <Grid x:Name="basisBlock" Grid.Column="1" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "60"/>
+                    <RowDefinition Height = "30"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding ElementName=basis, Path=Value, StringFormat='Число в основании : {0:F0}'}" 
+            Margin="0 8 0 0"  VerticalAlignment="top" HorizontalAlignment="Center" FontSize="20" MaxHeight="60" MinHeight="40" MaxWidth="400" MinWidth="200"/>
+                <Slider x:Name="basis" Grid.Row="1" MaxHeight="40"  MinHeight="20" HorizontalAlignment="Stretch" Margin="5 0 7 0" MaxWidth="500" MinWidth="220" VerticalAlignment="Center"/>
+            </Grid>
         </Grid>
 
        

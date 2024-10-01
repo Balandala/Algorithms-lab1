@@ -9,7 +9,7 @@ namespace Algorythms_Logic.MatrixOperations
 {
     public class MatrixProduct : MatrixOperation
     {
-        public override int MaxArraySize => 300;
+        public override int MaxArraySize => 500;
         public override string Description => "Умножение матриц";
         public override int NumberOfOperands => 2;
         public override void Execute(params int[][,] matrices)

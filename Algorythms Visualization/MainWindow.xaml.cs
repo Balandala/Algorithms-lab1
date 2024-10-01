@@ -2,12 +2,14 @@
 using Algorythms_Logic.Algorythms;
 using Algorythms_Logic.BinaryOperations;
 using Algorythms_Logic.MatrixOperations;
+using OpenTK.Graphics.OpenGL;
 using ScottPlot;
 using ScottPlot.WPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,21 +23,10 @@ using System.Windows.Shapes;
 
 namespace Algorythms_Visualization
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private List<Algorythm> _avilibleAlgorytmhs;
         private Algorythm? _selectedAlgorythm;
-
-        /* public void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-         {
-             // Логика для динамического изменения размера шрифта
-             double newFontSize = Math.Min(this.ActualWidth / 250, this.ActualHeight / 100);
-             mySlider.FontSize = newFontSize;
-         }*/
-
 
         private double[][] MakeExperiments(int[] marking)
         {
@@ -55,7 +46,7 @@ namespace Algorythms_Visualization
                 else if (_selectedAlgorythm is BinaryOperation)
                 {
                     BinaryOperation binOp = (BinaryOperation)_selectedAlgorythm;
-                    experiments[i] = AlgorythmsTesting.TestExecutionTime(binOp, maxSize, marking);
+                    experiments[i] = AlgorythmsTesting.TestExecutionTime(binOp, (int)Math.Round(basis.Value), marking);
 
                 }
                 else
@@ -71,39 +62,49 @@ namespace Algorythms_Visualization
 
         private double[] ToAvarageData(double[][] experements)
         {
-            double sum = 0;
             int size = experements[0].Length; //Размер внутренних массивов (количество X)
             double[] dataY = new double[size];
             for (int i = 0; i < size; i++)  // проход по всем элементам внутренних массивов
             {
+                double sum = 0;
                 for (int j = 0;j < experements.Length; j++) // проход по всем элементам внешнего массива
                 {
                     sum += experements[j][i]; //суммирование i-ых элементов внутренних массивов
                 }
-                dataY[i] = Math.Round(sum / experements.Length, 6);
+                dataY[i] = Math.Round(sum / experements.Length, 8);
             }
             return dataY;
         }
         private void Graph_Build()
         {
             MyPlot.Reset();
+            // График тестовых данных
             int stp = (int)Math.Round(step.Value);
             int size = (int)(Math.Round(arraySize.Value) / stp);
             int[] dataX = new int[size];
+            double[] aproxX = new double[size];
             for (int i = 0;i < size;i++)
             {
                 dataX[i] = i * stp;
+                aproxX[i] = (double)(i * stp);
             }
             double[] dataY = ToAvarageData(MakeExperiments(dataX));
-            // Пример данных для второй линии
             var testDataGraph = MyPlot.Plot.Add.Scatter(dataX, dataY);
             testDataGraph.Label = "Эксперементальные результаты";
-            //толщина
-            testDataGraph.LineWidth = 2; 
+            testDataGraph.LineWidth = 2;
 
-            //var scatter2 = WpfPlot1.Plot.Add.Scatter(dataX, dataY2);
-            //scatter2.Label = "Аппроксимация на основе теоретических ошибок";
-            //scatter2.LineWidth = 2;
+            // График аппроксимации
+            //alglib.spline1dinterpolant s;
+            //alglib.spline1dbuildlinear(aproxX, dataY, out s);
+            //double[] aproxY = s.innerobj.c;
+            //aproxX = new double[aproxY.Length];
+            //for (int i = 0; i < aproxY.Length; i++)
+            //{
+            //    aproxX[i] = i * stp;
+            //}
+            //var approxGraph = MyPlot.Plot.Add.Scatter(aproxX, aproxY);
+            //approxGraph.Label = "Аппроксимация на основе теоретических ошибок";
+            //aprox.LineWidth = 2;
 
             // Подписи левой нижней и верхней оси
             MyPlot.Plot.ShowLegend();
@@ -133,6 +134,11 @@ namespace Algorythms_Visualization
        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedAlgorythm is null)
+            {
+                MessageBox.Show("Выберите алгоритм");
+                return;
+            }
             Graph_Build();      
         }
         public MainWindow()
@@ -141,8 +147,6 @@ namespace Algorythms_Visualization
             InitializeComponent();
             Loaded += MainWindow_Loaded;
             Combox.SelectionChanged += Combox_SelectedValueChanged;
-        
-           //Graph_Build();
 
         }
 
@@ -152,6 +156,7 @@ namespace Algorythms_Visualization
             {
                 arrayBlock.Visibility = Visibility.Hidden;
                 stepBlock.Visibility = Visibility.Hidden;
+                basisBlock.Visibility = Visibility.Hidden;
                 _avilibleAlgorytmhs = AlgorythmsTesting.FindAvilibleAlgorythms();
                 Combox.ItemsSource = _avilibleAlgorytmhs.Select(t => t.Description);
             }
@@ -160,9 +165,23 @@ namespace Algorythms_Visualization
         {
 
             _selectedAlgorythm = _avilibleAlgorytmhs.FirstOrDefault(a => a.Description == Combox.SelectedItem); // устанавливает _avilibleAlgorythm в соответсвии с выбранным элементом комбобокса
+            // Пределы для слайдеров:
+            arraySize.Minimum = (_selectedAlgorythm.MaxArraySize / 500).Equals(1) ? 2 : _selectedAlgorythm.MaxArraySize / 500;
             arraySize.Maximum = _selectedAlgorythm.MaxArraySize;
             step.Maximum = arraySize.Maximum / 100;
-            step.Minimum = arraySize.Maximum / 1000;
+            step.Minimum = Math.Floor(arraySize.Maximum / 1000);
+            step.Minimum = step.Minimum.Equals(0) ? 1 : step.Minimum; 
+
+            if (_selectedAlgorythm is BinaryOperation)
+            {
+                BinaryOperation binOp = (BinaryOperation) _selectedAlgorythm;
+                basis.Maximum = binOp.MaxBasisNumber;
+                basisBlock.Visibility = Visibility.Visible;
+            }
+            else
+            {
+              basisBlock.Visibility = Visibility.Hidden;
+            }
             arrayBlock.Visibility = Visibility.Visible;
             stepBlock.Visibility = Visibility.Visible;
         }
