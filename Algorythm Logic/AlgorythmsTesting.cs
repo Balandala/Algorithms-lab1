@@ -3,17 +3,19 @@
 using Algorythms_Logic.BinaryOperations;
 using Algorythms_Logic.MatrixOperations;
 using Algorythms_Logic.Algorythms;
+using MathNet.Numerics;
 using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
+using System.Drawing;
 
 public class AlgorythmsTesting
 {
-    public static int[] GenerateData(int size) 
+    public static int[] GenerateData(int size)
     {
         Random rand = new Random();
         int[] ar = new int[size];
-        for(int i = 0; i < ar.Length; i++)
+        for (int i = 0; i < ar.Length; i++)
         {
             ar[i] = rand.Next();
         }
@@ -22,24 +24,24 @@ public class AlgorythmsTesting
 
     public static int[,] GenerateMatix(int size)
     {
-        var mx = new int[size,size];
+        var mx = new int[size, size];
         Random random = new Random();
         for (int i = 0; i < size; i++)
         {
-            for (int j = 0; j < size; j++) 
+            for (int j = 0; j < size; j++)
             {
-                mx[i,j] = random.Next();
+                mx[i, j] = random.Next();
             }
         }
         return mx;
-    } 
+    }
     public static int[][,] GenerateMatixSet(MatrixOperation matrixOp, int maxRank) //Генерирует массив из матриц размером maxRank * NumberOfOperands. Причём для каждого размера подряд идёт NumberOfOperands матриц одного размера 
     {
         int[][,] set = new int[maxRank * matrixOp.NumberOfOperands][,];
         int curentRank = 0;
-        for (int i = 0;i < maxRank * matrixOp.NumberOfOperands; i += matrixOp.NumberOfOperands)
+        for (int i = 0; i < maxRank * matrixOp.NumberOfOperands; i += matrixOp.NumberOfOperands)
         {
-            for (int j = 0;j < matrixOp.NumberOfOperands; j++)
+            for (int j = 0; j < matrixOp.NumberOfOperands; j++)
             {
                 int[,] matrix = GenerateMatix(curentRank);
                 set[i + j] = matrix;
@@ -52,10 +54,10 @@ public class AlgorythmsTesting
     {
         double[] result = new double[marking.Length];
         for (int i = 0; i < marking.Length; i++)
-        { 
+        {
             int mark = marking[i];
             int[] testData = new int[mark];
-            Array.Copy(data, testData, mark); 
+            Array.Copy(data, testData, mark);
             Stopwatch stopwatch = Stopwatch.StartNew();
             algorythm.Execute(testData);
             stopwatch.Stop();
@@ -67,7 +69,7 @@ public class AlgorythmsTesting
     {
         int numberOfOperands = matrixOp.NumberOfOperands;
         double[] result = new double[marking.Length]; ;
-        for(int i = 0; i < marking.Length; i++)
+        for (int i = 0; i < marking.Length; i++)
         {
             int[][,] testData = new int[numberOfOperands][,];
             Array.Copy(data, marking[i], testData, 0, numberOfOperands);

@@ -1,4 +1,5 @@
-﻿using Algorythms_Logic;
+﻿using Algorythm_Logic;
+using Algorythms_Logic;
 using Algorythms_Logic.Algorythms;
 using Algorythms_Logic.BinaryOperations;
 using Algorythms_Logic.MatrixOperations;
@@ -82,33 +83,27 @@ namespace Algorythms_Visualization
             int stp = (int)Math.Round(step.Value);
             int size = (int)(Math.Round(arraySize.Value) / stp);
             int[] dataX = new int[size];
-            double[] aproxX = new double[size];
+            
             for (int i = 0;i < size;i++)
             {
                 dataX[i] = i * stp;
-                aproxX[i] = (double)(i * stp);
             }
             double[] dataY = ToAvarageData(MakeExperiments(dataX));
             var testDataGraph = MyPlot.Plot.Add.Scatter(dataX, dataY);
             testDataGraph.Label = "Эксперементальные результаты";
-            testDataGraph.LineWidth = 2;
+            testDataGraph.LineWidth = 1;
 
             // График аппроксимации
-            //alglib.spline1dinterpolant s;
-            //alglib.spline1dbuildlinear(aproxX, dataY, out s);
-            //double[] aproxY = s.innerobj.c;
-            //aproxX = new double[aproxY.Length];
-            //for (int i = 0; i < aproxY.Length; i++)
-            //{
-            //    aproxX[i] = i * stp;
-            //}
-            //var approxGraph = MyPlot.Plot.Add.Scatter(aproxX, aproxY);
-            //approxGraph.Label = "Аппроксимация на основе теоретических ошибок";
-            //aprox.LineWidth = 2;
+
+            int degree = (int)Math.Min(20, Math.Round(arraySize.Value / step.Value));// Максимальная степень полинома (нужно, что бы избежать краша при некторых значениях arraySize)
+            double[] aproxData = Approximation.MakeApproximation(dataX, dataY, degree);
+                var aproxGraph = MyPlot.Plot.Add.Scatter(dataX, aproxData);
+            aproxGraph.Label = "Аппроксимация на основе полученных данных";
+            aproxGraph.LineWidth = 2;
 
             // Подписи левой нижней и верхней оси
             MyPlot.Plot.ShowLegend();
-            MyPlot.Plot.Axes.Left.Label.Text = "Время(милисекунды)";
+            MyPlot.Plot.Axes.Left.Label.Text = "Время (милисекунды)";
             MyPlot.Plot.Axes.Left.Label.ForeColor = ScottPlot.Colors.Black;
             MyPlot.Plot.Axes.Left.Label.FontName = ScottPlot.Fonts.Monospace;
             MyPlot.Plot.Axes.Left.Label.Bold = false;
@@ -120,7 +115,7 @@ namespace Algorythms_Visualization
             MyPlot.Plot.Axes.Bottom.Label.FontName = ScottPlot.Fonts.Monospace;
             MyPlot.Plot.Axes.Bottom.Label.FontSize = 20;
             //верхняя
-            MyPlot.Plot.Axes.Title.Label.Text = "График зависимости";
+            MyPlot.Plot.Axes.Title.Label.Text = _selectedAlgorythm.Description;
             MyPlot.Plot.Axes.Title.Label.Bold = false;
             MyPlot.Plot.Axes.Title.Label.ForeColor = ScottPlot.Colors.Black;
             MyPlot.Plot.Axes.Title.Label.FontName = ScottPlot.Fonts.Monospace;
@@ -138,6 +133,14 @@ namespace Algorythms_Visualization
             {
                 MessageBox.Show("Выберите алгоритм");
                 return;
+            }
+            else if (_selectedAlgorythm is BinaryOperation)
+            {
+                BinaryOperation binOp = (BinaryOperation) _selectedAlgorythm;
+                if (!int.TryParse(baseText.Text, out int value))
+                {
+                    return;
+                }
             }
             Graph_Build();      
         }
@@ -166,7 +169,7 @@ namespace Algorythms_Visualization
 
             _selectedAlgorythm = _avilibleAlgorytmhs.FirstOrDefault(a => a.Description == Combox.SelectedItem); // устанавливает _avilibleAlgorythm в соответсвии с выбранным элементом комбобокса
             // Пределы для слайдеров:
-            arraySize.Minimum = (_selectedAlgorythm.MaxArraySize / 500).Equals(1) ? 2 : _selectedAlgorythm.MaxArraySize / 500;
+            arraySize.Minimum = (_selectedAlgorythm.MaxArraySize / 500) < 2 ? 2 : _selectedAlgorythm.MaxArraySize / 500;
             arraySize.Maximum = _selectedAlgorythm.MaxArraySize;
             step.Maximum = arraySize.Maximum / 100;
             step.Minimum = Math.Floor(arraySize.Maximum / 1000);
