@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Algorythm_Logic.Algorythms
 {
-    internal class QuickSort : Algorythm
+    public class QuickSort : Algorythm
     {
         public override string Description => "Быстрая сортировка";
         public override int MaxArraySize => 6000;

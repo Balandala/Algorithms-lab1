@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Algorythm_Logic.Algorythms
 {
-    internal class TimSort:Algorythm
+    public class TimSort:Algorythm
     {
         public override string Description => "Гибридный алгоритм сортировки Timsort";
         public override int MaxArraySize => 6000;

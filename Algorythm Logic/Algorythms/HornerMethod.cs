@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Algorythm_Logic.Algorythms
 {
-    internal class HornerMethod: Algorythm
+    public class HornerMethod: Algorythm
     {
         public override string Description => "Метод Горнора";
         public override int MaxArraySize => 600000;
