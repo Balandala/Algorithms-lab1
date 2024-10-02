@@ -17,7 +17,7 @@ namespace Algorythm_Logic.Algorythms
         {
             QuickSort_(array, 0,array.Length-1);
         }
-        static void QuickSort_(int[] array, int low, int high)
+        private static void QuickSort_(int[] array, int low, int high)
         {
             if (low < high)
             {
@@ -29,7 +29,7 @@ namespace Algorythm_Logic.Algorythms
                 QuickSort_(array, pi + 1, high);
             }
         }
-        static int Partition(int[] array, int low, int high)
+        private static int Partition(int[] array, int low, int high)
         {
             // Опорный элемент (pivot) - последний элемент массива
             int pivot = array[high];
