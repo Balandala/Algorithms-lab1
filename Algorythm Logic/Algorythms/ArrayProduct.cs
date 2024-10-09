@@ -15,10 +15,10 @@ namespace Algorythms_Logic.Algorythms
 
         public override void Execute(int[] array)
         {
-            BigInteger prod = 1;
+            long prod = 1;
             foreach (int num in array)
             {
-                prod = BigInteger.Multiply(prod, num);
+                prod *= num;
             }
             return;
         }

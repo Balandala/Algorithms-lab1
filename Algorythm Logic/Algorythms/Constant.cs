@@ -12,6 +12,11 @@ namespace Algorythms_Logic.Algorythms
         public override int MaxArraySize => 1000000;
         public override void Execute(int[] array)
         {
+            long f = 1;
+            for (int i = 0; i < 10000; i++)
+            {
+                f *= i;
+            }
             return;
         }
     }
