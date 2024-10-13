@@ -30,7 +30,31 @@ namespace Algorythm_Logic
             }
             return aproxY;
         }
+        public static double[] MakeApproximation(int[] intX, double[] dataY, int degree, List<double> errorList)
+        {
+            errorList.Clear();
+            int arraysLength = intX.Length;
+            double[] dataX = new double[arraysLength];
+            Array.Copy(intX, dataX, arraysLength);
 
+            double[] temp;
+            double[] aproxY = LinearRegression(dataX, dataY);
+            double minError;
+            minError = GoodnessOfFit.PopulationStandardError(aproxY, dataY);
+            errorList.Add(minError);
+            for (int i = 0; i < degree; i++)
+            {
+                temp = PolinomialRgression(dataX, dataY, i);
+                double error = GoodnessOfFit.PopulationStandardError(temp, dataY);
+                errorList.Add(error);
+                if (Math.Abs(error) < Math.Abs(minError))
+                {
+                    minError = error;
+                    aproxY = temp;
+                }
+            }
+            return aproxY;
+        }
         public static double[] PolinomialRgression(double[] dataX, double[] dataY,int degree)
         {
             double[] regressY = new double[dataY.Length];

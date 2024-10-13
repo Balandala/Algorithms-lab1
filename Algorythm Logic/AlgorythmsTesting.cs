@@ -85,10 +85,8 @@ public class AlgorythmsTesting
         double[] result = new double[marking.Length];
         for (int i = 0; i < marking.Length; i++)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            op.Execute(basis, i);
-            stopwatch.Stop();
-            result[i] = (double)stopwatch.ElapsedTicks / 10000; // Время в милисекундах
+            op.Execute(basis, marking[i]);
+            result[i] = op.StepCount; // Время в милисекундах
 
         }
         return result;

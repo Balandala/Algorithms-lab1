@@ -20,6 +20,7 @@
         <Button Click="Button_Click" Grid.Column="1" x:Name="Button" Background="LightGray" Foreground="Black" VerticalAlignment="Top" FontSize="14" MaxWidth="550" MinWidth="100" MaxHeight="40"  MinHeight="23" Margin="5,10,5,1"  Content="Запуск" FontStyle="Italic"  Grid.Row="0" Grid.RowSpan="2"/>
         <ScottPlot:WpfPlot x:Name="MyPlot" Grid.Row="1"  Grid.RowSpan="2" >
         </ScottPlot:WpfPlot>
+        <Button x:Name="ErrorButton" Click="ErrorButton_Click"  Background="LightGray" Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="14" MaxWidth="90" MinWidth="20" MaxHeight="40"  MinHeight="23" Margin="5,10,5,1"  Content="Ошибка" FontStyle="Italic"  Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"/>
         <ComboBox x:Name="Combox"  Margin="10 15 10 5" HorizontalAlignment="Stretch"   VerticalAlignment="Center" MaxWidth="950" MinWidth="530" MaxHeight="50" MinHeight="40" materialDesign:HintAssist.Hint="Выбирите алгоритм" >
         </ComboBox>
 

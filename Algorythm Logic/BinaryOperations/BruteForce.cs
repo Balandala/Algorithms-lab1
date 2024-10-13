@@ -11,19 +11,24 @@ namespace Algorythm_Logic.BinaryOperations
 {
     internal class BruteForce : BinaryOperation
     {
+        private int stepCount;
+        public override int StepCount { get { return stepCount; } }
         public override string Description => "Полный перебор";
         public override int MaxArraySize => 10;
         public override int MaxBasisNumber => 10;
         public override void Execute(int basis, int arg)
         {
+            stepCount = 0;
             string digits = "0123456789";
-            string choosenDigits = digits.Substring(0, basis);
+            string choosenDigits = digits.Substring(0, basis);  
             StartBruteForce("", arg, choosenDigits);
         }
-        private static void StartBruteForce(string result, int maxLength, string abc)
+        private void StartBruteForce(string result, int maxLength, string abc)
         {
+            stepCount++;
             if (result.Length == maxLength)
             {
+              
                 return;
             }
             else

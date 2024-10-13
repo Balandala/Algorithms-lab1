@@ -28,6 +28,7 @@ namespace Algorythms_Visualization
     {
         private List<Algorythm> _avilibleAlgorytmhs;
         private Algorythm? _selectedAlgorythm;
+        private List<double> _aproxErrorData = new List<double>();
 
         private double[][] MakeExperiments(int[] marking)
         {
@@ -96,14 +97,17 @@ namespace Algorythms_Visualization
             // График аппроксимации
 
             int degree = (int)Math.Min(20, Math.Round(arraySize.Value / step.Value));// Максимальная степень полинома (нужно, что бы избежать краша при некторых значениях arraySize)
-            double[] aproxData = Approximation.MakeApproximation(dataX, dataY, degree);
+            double[] aproxData = Approximation.MakeApproximation(dataX, dataY, degree, _aproxErrorData);
                 var aproxGraph = MyPlot.Plot.Add.Scatter(dataX, aproxData);
             aproxGraph.Label = "Аппроксимация на основе полученных данных";
             aproxGraph.LineWidth = 2;
 
             // Подписи левой нижней и верхней оси
             MyPlot.Plot.ShowLegend();
-            MyPlot.Plot.Axes.Left.Label.Text = "Время (милисекунды)";
+            if (_selectedAlgorythm is BinaryOperation)
+                MyPlot.Plot.Axes.Left.Label.Text = "Количество шагов";
+            else
+                MyPlot.Plot.Axes.Left.Label.Text = "Время (миллисекунды)";
             MyPlot.Plot.Axes.Left.Label.ForeColor = ScottPlot.Colors.Black;
             MyPlot.Plot.Axes.Left.Label.FontName = ScottPlot.Fonts.Monospace;
             MyPlot.Plot.Axes.Left.Label.Bold = false;
@@ -120,8 +124,6 @@ namespace Algorythms_Visualization
             MyPlot.Plot.Axes.Title.Label.ForeColor = ScottPlot.Colors.Black;
             MyPlot.Plot.Axes.Title.Label.FontName = ScottPlot.Fonts.Monospace;
             MyPlot.Plot.Axes.Title.Label.FontSize = 25;
-
-           
             MyPlot.Refresh();
            
         }
@@ -142,7 +144,8 @@ namespace Algorythms_Visualization
                     return;
                 }
             }
-            Graph_Build();      
+            Graph_Build();
+            ErrorButton.Visibility = Visibility.Visible;
         }
         public MainWindow()
         {
@@ -160,6 +163,7 @@ namespace Algorythms_Visualization
                 arrayBlock.Visibility = Visibility.Hidden;
                 stepBlock.Visibility = Visibility.Hidden;
                 basisBlock.Visibility = Visibility.Hidden;
+                ErrorButton.Visibility = Visibility.Hidden;
                 _avilibleAlgorytmhs = AlgorythmsTesting.FindAvilibleAlgorythms();
                 Combox.ItemsSource = _avilibleAlgorytmhs.Select(t => t.Description);
             }
@@ -187,6 +191,21 @@ namespace Algorythms_Visualization
             }
             arrayBlock.Visibility = Visibility.Visible;
             stepBlock.Visibility = Visibility.Visible;
+        }
+
+        private void ErrorButton_Click(object sender, RoutedEventArgs e)
+        {
+            string errorMessage = "";
+            for (int i = 0; i < _aproxErrorData.Count; i++)
+            {
+                if (i == 0)
+                    errorMessage += $"Линейная регрессия:\t{_aproxErrorData[i]}";
+                else
+                    errorMessage += $"\n Полином {i}-ой степени:\t{_aproxErrorData[i]}";
+                if (_aproxErrorData[i] == _aproxErrorData.Min())
+                    errorMessage += "✔";
+            }
+            MessageBox.Show(errorMessage, "Ошибка в разных функциях аппроксимации");
         }
     }
    
