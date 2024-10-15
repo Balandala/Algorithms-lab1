@@ -131,6 +131,11 @@ namespace Algorythms_Visualization
        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!(2 * step.Value <= arraySize.Value))
+            {
+                MessageBox.Show("Размер массива должен быть как минимум в 2 раза больше велечины шага");
+                return;
+            }
             if (_selectedAlgorythm is null)
             {
                 MessageBox.Show("Выберите алгоритм");

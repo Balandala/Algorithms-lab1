@@ -13,7 +13,7 @@ namespace Algorythms_Logic.Algorythms
         public override void Execute(int[] array)
         {
             long f = 1;
-            for (int i = 0; i < 10000; i++)
+            for (int i = 1; i <= 10000; i++)
             {
                 f *= i;
             }
