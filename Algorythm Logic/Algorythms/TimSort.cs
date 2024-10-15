@@ -11,7 +11,7 @@ namespace Algorythm_Logic.Algorythms
     public class TimSort:Algorythm
     {
         public override string Description => "Гибридный алгоритм сортировки Timsort";
-        public override int MaxArraySize => 6000;
+        public override int MaxArraySize => 100000;
 
         public override void Execute(int[] array)
         {

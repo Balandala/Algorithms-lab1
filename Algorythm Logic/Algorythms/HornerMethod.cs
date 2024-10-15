@@ -11,7 +11,7 @@ namespace Algorythm_Logic.Algorythms
     public class HornerMethod: Algorythm
     {
         public override string Description => "Метод Горнора";
-        public override int MaxArraySize => 600000;
+        public override int MaxArraySize => 100000000;
 
         public override void Execute(int[] array)
         {
