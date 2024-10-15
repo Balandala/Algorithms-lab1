@@ -11,7 +11,7 @@ namespace Algorythm_Logic.Algorythms
     internal class _3_Sum_Problem : Algorythm
     {
         public override string Description => "Нахождение троек в массиве, сумма которых равно 0";
-        public override int MaxArraySize => 6000;
+        public override int MaxArraySize => 30000;
 
         public override void Execute(int[] array)
         {

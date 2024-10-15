@@ -11,7 +11,7 @@ namespace Algorythm_Logic.Algorythms
     internal class EvaluatePolynomialcs : Algorythm
     {
         public override string Description => "Прямое (наивное) вычисление многочлена";
-        public override int MaxArraySize => 1000000;
+        public override int MaxArraySize => 10000000;
 
         public override void Execute(int[] coefficients)
         {

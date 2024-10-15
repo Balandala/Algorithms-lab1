@@ -11,7 +11,7 @@ namespace Algorythm_Logic.Algorythms
     public class QuickSort : Algorythm
     {
         public override string Description => "Быстрая сортировка";
-        public override int MaxArraySize => 100000;
+        public override int MaxArraySize => 10000000;
 
         public override void Execute(int[] array)
         {
