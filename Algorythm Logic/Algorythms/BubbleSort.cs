@@ -12,7 +12,7 @@ namespace Algorythm_Logic.Algorythms
     public class BubbleSort:Algorythm
     {
         public override string Description => "Сортировка Пузырьком";
-        public override int MaxArraySize => 6000;
+        public override int MaxArraySize => 30000;
 
         public override void Execute(int[] array)
         {

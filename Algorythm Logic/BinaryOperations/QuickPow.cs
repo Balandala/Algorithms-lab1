@@ -10,23 +10,28 @@ namespace Algorythm_Logic.BinaryOperations
 {
     internal class QuickPow : BinaryOperation
     {
+        private int stepCount;
+        public override int StepCount { get { return stepCount; } }
         public override string Description => "Быстрое возведение в степень (QuickPow)";
         public override int MaxArraySize => 2000000000;
         public override int MaxBasisNumber => 2000000000;
         public override void Execute(int number, int exponent)
         {
+            stepCount = 0;
             Power(number, exponent);
         }
-        private static BigInteger Power(int number, int exponent)
+        private long Power(int number, int exponent)
         {
-            int f;
+            long f;
             if (exponent%2==1)
             {
                 f = number;
+                stepCount++;
             }
             else
             {
                 f = 1;
+                stepCount++;
             }
             while(exponent!=0)
             {
@@ -36,6 +41,7 @@ namespace Algorythm_Logic.BinaryOperations
                 {
                     f=f*number;
                 }
+                stepCount++;
             }
             return f;
         }

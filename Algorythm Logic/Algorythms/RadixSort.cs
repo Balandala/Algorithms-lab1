@@ -10,7 +10,7 @@ namespace Algorythm_Logic.Algorythms
     public class RadixSort : Algorythm
     {
         public override string Description => "Поразрядная сортировка";
-        public override int MaxArraySize => 20000;
+        public override int MaxArraySize => 5000000;
 
         public override void Execute(int[] array)
         {

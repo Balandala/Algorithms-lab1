@@ -11,14 +11,14 @@ namespace Algorythms_Logic.Algorythms
     public class ArrayProduct : Algorythm
     {
         public override string Description => "Перемножение всех чисел в массиве";
-        public override int MaxArraySize => 6000;
+        public override int MaxArraySize => 200000000;
 
         public override void Execute(int[] array)
         {
-            BigInteger prod = 1;
+            long prod = 1;
             foreach (int num in array)
             {
-                prod = BigInteger.Multiply(prod, num);
+                prod *= num;
             }
             return;
         }
